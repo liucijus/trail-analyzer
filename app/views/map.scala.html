@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trail</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="application/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/map.js")" type="application/javascript" ></script>
+  </head>
+  <body>
+    <div id="upload-form">
+    @helper.form(action = routes.Trails.upload, 'enctype -> "multipart/form-data") {
+      <input type="file" id="file-upload-input" onchange="handleFiles(this.files);">
+      <button type="button" class="button" id="select-file" onclick="selectFile();">Select file</button>
+      <button type="button" class="button" id="upload-file" onclick="uploadFile('@routes.Trails.upload');">
+        Analyze
+      </button>
+      <div id="selected-file"></div>
+    }
+    </div>
+    <div id="map"></div>
+  </body>
+</html>
+
