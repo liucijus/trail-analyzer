@@ -77,9 +77,12 @@ var drawOnMap = function (trackData) {
 
 var successHandler = function (data) {
     clearMapTracks();
-    for (var j = 0; j < data.length; j++) {
-        drawOnMap(data[j]);
+    for (var j = 0; j < data['trail'].length; j++) {
+        drawOnMap(data['trail'][j]);
     }
+
+    drawBox(data['box']);
+    centerMap(data['box']);
 };
 
 var failureHandler = function () {
@@ -87,3 +90,23 @@ var failureHandler = function () {
     filename_div.html("Invalid file!");
     filename_div.addClass("error");
 };
+
+var centerMap = function (box) {
+    map.panTo(new google.maps.LatLng(box['centerLat'], box['centerLon']));
+}
+
+var drawBox = function (box) {
+    var rectangle = new google.maps.Rectangle({
+        strokeColor: '#ADC09F',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#ADC09F',
+        fillOpacity: 0.35,
+        bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(box['topLat'], box['bottomLon']),
+            new google.maps.LatLng(box['bottomLat'], box['topLon'])
+        )
+    });
+    rectangle.setMap(map);
+    trailLines.push(rectangle);
+}
