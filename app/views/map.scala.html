@@ -15,7 +15,7 @@
     @helper.form(action = routes.Trails.upload, 'enctype -> "multipart/form-data") {
       <input type="file" id="file-upload-input" onchange="handleFiles(this.files);">
       <button type="button" class="button" id="select-file" onclick="selectFile();">Select file</button>
-      <button type="button" class="button" id="upload-file" onclick="uploadFile('@routes.Trails.upload');">
+      <button type="button" class="button" id="upload-file" onclick="uploadFile('@routes.Trails.upload');" disabled>
         Analyze
       </button>
       <div id="selected-file"></div>

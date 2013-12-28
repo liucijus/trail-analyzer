@@ -40,6 +40,10 @@ html, body, #map {
     margin-right: 5px;
 }
 
+.button:disabled {
+    background-color: #a0a0a0;
+}
+
 #file-upload-input {
     visibility: hidden;
     position: absolute;
@@ -50,5 +54,9 @@ html, body, #map {
     font-size: 11px;
     display: inline-block;
     padding-top: 3px;
+}
+
+.error {
+    color: red !important;
 }
 

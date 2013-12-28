@@ -19,7 +19,9 @@ var selectFile = function () {
 var handleFiles = function (files) {
     if (files) {
         $("#upload-file").removeAttr("disabled");
-        $("#selected-file").html($("#file-upload-input").val());
+        var filename_div = $("#selected-file");
+        filename_div.html($("#file-upload-input").val());
+        filename_div.removeClass("error");
     }
 };
 
@@ -81,5 +83,7 @@ var successHandler = function (data) {
 };
 
 var failureHandler = function () {
-    alert("failure");
+    var filename_div = $("#selected-file");
+    filename_div.html("Invalid file!");
+    filename_div.addClass("error");
 };
