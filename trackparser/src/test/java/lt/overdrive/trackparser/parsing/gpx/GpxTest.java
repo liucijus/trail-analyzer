@@ -35,7 +35,7 @@ public class GpxTest {
     }
 
     @Test
-    public void parserShouldLoadOneTrack_givenOneActivityFile() throws Exception {
+    public void parserShouldLoadOneTrack_givenOneTrackFile() throws Exception {
         Trail trail = new GpxParser().parse(getFile("gpx/test_with_ele.gpx"));
 
         assertThat(trail.getTracks().size(), equalTo(1));
