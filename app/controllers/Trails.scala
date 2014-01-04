@@ -3,7 +3,7 @@ package controllers
 import lt.overdrive.trackparser.parsing.{ParserException, Parser}
 import play.api.mvc._
 import play.api.libs.json._
-import lt.overdrive.trackparser.domain.GpsTrack
+import lt.overdrive.trackparser.domain.Track
 import scala.collection.JavaConversions._
 import lt.overdrive.trackparser.processing.{TrackRectangle, TrackProcessor}
 
@@ -36,7 +36,7 @@ object Trails extends Controller {
       }
   }
 
-  private def convertToJson(track: GpsTrack) = {
+  private def convertToJson(track: Track) = {
     val points = track.getPoints.toList
     Json.toJson(points.map(p => Json.obj(
       "lat" -> p.getLatitude.doubleValue(),
