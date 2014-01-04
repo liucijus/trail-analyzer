@@ -1,6 +1,5 @@
 package lt.overdrive.trackparser.parsing.gpx;
 
-import com.google.common.collect.ImmutableList;
 import lt.overdrive.trackparser.domain.Trail;
 import lt.overdrive.trackparser.parsing.ParserException;
 import org.junit.Rule;
@@ -52,7 +51,7 @@ public class GpxTest {
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenCorrectGpxFile() throws Exception {
         String fileName = "gpx/test_with_ele.gpx";
-        Trail expected = prepareTrail(ImmutableList.of(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6));
+        Trail expected = prepareTrail(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
         Trail trail = new GpxParser().parse(getFile(fileName));
 
@@ -62,7 +61,7 @@ public class GpxTest {
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenGpxFileWithoutAltitude() throws Exception {
         String fileName = "gpx/test_no_ele.gpx";
-        Trail expected = prepareTrailWithoutAltitude(ImmutableList.of(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6));
+        Trail expected = prepareTrailWithoutAltitude(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
         Trail trail = new GpxParser().parse(getFile(fileName));
 
@@ -72,7 +71,7 @@ public class GpxTest {
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenGpxFileWithoutTime() throws Exception {
         String fileName = "gpx/test_no_time.gpx";
-        Trail expected = prepareTrailWithoutTime(ImmutableList.of(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6));
+        Trail expected = prepareTrailWithoutTime(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
         Trail trail = new GpxParser().parse(getFile(fileName));
 
