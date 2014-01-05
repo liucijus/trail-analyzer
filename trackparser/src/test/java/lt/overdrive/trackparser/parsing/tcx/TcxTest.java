@@ -50,30 +50,27 @@ public class TcxTest {
 
     @Test
     public void parserShouldSkipTrackPointsWithoutPosition() throws Exception {
-        String fileName = "tcx/missing_position.tcx";
         Trail expectedTrail = prepareTrail(POINT_1, POINT_3);
 
-        Trail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/missing_position.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expectedTrail));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenTcxFileWithAltitude() throws Exception {
-        String fileName = "tcx/test_with_ele.tcx";
         Trail expected = prepareTrail(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        Trail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/test_with_ele.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expected));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenTcxFileWithoutAltitude() throws Exception {
-        String fileName = "tcx/test_no_ele.tcx";
         Trail expected = prepareTrailWithoutAltitude(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        Trail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/test_no_ele.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expected));
     }

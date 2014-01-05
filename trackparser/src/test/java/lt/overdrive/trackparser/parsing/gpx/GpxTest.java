@@ -50,30 +50,27 @@ public class GpxTest {
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenCorrectGpxFile() throws Exception {
-        String fileName = "gpx/test_with_ele.gpx";
         Trail expected = prepareTrail(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        Trail trail = new GpxParser().parse(getFile(fileName));
+        Trail trail = new GpxParser().parse(getFile("gpx/test_with_ele.gpx"));
 
         assertThat(trail, samePropertyValuesAs(expected));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenGpxFileWithoutAltitude() throws Exception {
-        String fileName = "gpx/test_no_ele.gpx";
         Trail expected = prepareTrailWithoutAltitude(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        Trail trail = new GpxParser().parse(getFile(fileName));
+        Trail trail = new GpxParser().parse(getFile("gpx/test_no_ele.gpx"));
 
         assertThat(trail, samePropertyValuesAs(expected));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenGpxFileWithoutTime() throws Exception {
-        String fileName = "gpx/test_no_time.gpx";
         Trail expected = prepareTrailWithoutTime(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        Trail trail = new GpxParser().parse(getFile(fileName));
+        Trail trail = new GpxParser().parse(getFile("gpx/test_no_time.gpx"));
 
         assertThat(trail, samePropertyValuesAs(expected));
     }

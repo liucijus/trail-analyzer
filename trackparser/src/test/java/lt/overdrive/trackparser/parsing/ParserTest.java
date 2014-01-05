@@ -24,7 +24,7 @@ public class ParserTest {
     public void shouldThrowInvalidFileException_givenInvalidFile() throws Exception {
         File tcxFile = getFile("tcx/invalid.tcx");
 
-        Trail trail = Parser.parseFile(tcxFile);
+        Parser.parseFile(tcxFile);
     }
 
     @Test
