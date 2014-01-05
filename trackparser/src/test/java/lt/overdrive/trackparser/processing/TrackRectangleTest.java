@@ -54,7 +54,7 @@ public class TrackRectangleTest {
     }
 
     @Test
-    public void trailRectableShouldBeCorrect_givenCorrectTrail() {
+    public void trailRectangleShouldBeCorrect_givenCorrectTrail() {
         List<Track> tracks = ImmutableList.of(
                 trackOf(POINT_1, POINT_2, POINT_3),
                 trackOf(POINT_4, POINT_5, POINT_6)
