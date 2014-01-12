@@ -92,7 +92,7 @@ var failureHandler = function () {
 };
 
 var centerMap = function (box) {
-    map.panTo(new google.maps.LatLng(box['centerLat'], box['centerLon']));
+    map.panTo(new google.maps.LatLng(box['center']['lat'], box['center']['lon']));
 }
 
 var drawBox = function (box) {
@@ -103,8 +103,8 @@ var drawBox = function (box) {
         fillColor: '#ADC09F',
         fillOpacity: 0.35,
         bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(box['topLat'], box['bottomLon']),
-            new google.maps.LatLng(box['bottomLat'], box['topLon'])
+            new google.maps.LatLng(box['top']['lat'], box['bottom']['lon']),
+            new google.maps.LatLng(box['bottom']['lat'], box['top']['lon'])
         )
     });
     rectangle.setMap(map);

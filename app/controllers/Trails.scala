@@ -3,9 +3,10 @@ package controllers
 import lt.overdrive.trackparser.parsing.{ParserException, Parser}
 import play.api.mvc._
 import play.api.libs.json._
-import lt.overdrive.trackparser.domain.Track
+import lt.overdrive.trackparser.domain.{TrackPoint, Track}
 import scala.collection.JavaConversions._
 import lt.overdrive.trackparser.processing.{TrackRectangle, TrackProcessor}
+import play.api.libs.json.Json.JsValueWrapper
 
 object Trails extends Controller {
 
@@ -39,20 +40,23 @@ object Trails extends Controller {
   private def convertToJson(track: Track) = {
     val points = track.getPoints.toList
     Json.toJson(points.map(p => Json.obj(
-      "lat" -> p.getLatitude.doubleValue(),
-      "lng" -> p.getLongitude.doubleValue(),
-      "alt" -> p.getAltitude.doubleValue()
+      "lat" -> p.getLatitude.doubleValue,
+      "lng" -> p.getLongitude.doubleValue,
+      "alt" -> p.getAltitude.doubleValue
     )))
   }
 
   private def createBoxJson(box: TrackRectangle) = {
+    def createJsonPoint(point: TrackPoint): Json.JsValueWrapper = {
+      Json.obj(
+        "lat" -> point.getLatitude.doubleValue,
+        "lon" -> point.getLongitude.doubleValue
+      )
+    }
     Json.obj(
-      "topLat" -> box.getTopRightPoint.getLatitude.doubleValue(),
-      "topLon" -> box.getTopRightPoint.getLongitude.doubleValue(),
-      "bottomLat" -> box.getBottomLeftPoint.getLatitude.doubleValue(),
-      "bottomLon" -> box.getBottomLeftPoint.getLongitude.doubleValue(),
-      "centerLat" -> box.getCenterPoint.getLatitude.doubleValue(),
-      "centerLon" -> box.getCenterPoint.getLongitude.doubleValue()
+      "top" -> createJsonPoint(box.getTopRightPoint),
+      "bottom" -> createJsonPoint(box.getBottomLeftPoint),
+      "center" -> createJsonPoint(box.getCenterPoint)
     )
   }
 }
