@@ -22,6 +22,7 @@ class TrailsSpec extends PlaySpecification {
 
     "return BAD_REQUEST and JSON object if invalid file uploaded" in new WithApplication() {
       val data = createMultipartFormData("test/non-gps.file")
+
       val result = controllers.Trails.upload(fakeRequest(data))
 
       status(result) must equalTo(BAD_REQUEST)
