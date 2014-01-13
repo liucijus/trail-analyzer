@@ -14,7 +14,7 @@ class TrailsSpec extends PlaySpecification {
     "return OK and JSON object if correct GPX/TCX file uploaded" in new WithApplication() {
       val data = createMultipartFormData("sample.gpx")
 
-      val result = controllers.Trails.upload(FakeRequest(POST, routes.Trails.upload.url, FakeHeaders(), data))
+      val result = controllers.Trails.upload(fakeRequest(data))
 
       status(result) must equalTo(OK)
       contentType(result) must beSome("application/json")
@@ -22,11 +22,16 @@ class TrailsSpec extends PlaySpecification {
 
     "return BAD_REQUEST and JSON object if invalid file uploaded" in new WithApplication() {
       val data = createMultipartFormData("test/non-gps.file")
-      val result = controllers.Trails.upload(FakeRequest(POST, routes.Trails.upload.url, FakeHeaders(), data))
+      val result = controllers.Trails.upload(fakeRequest(data))
 
       status(result) must equalTo(BAD_REQUEST)
       contentType(result) must beSome("application/json")
     }
+  }
+
+
+  def fakeRequest(data: MultipartFormData[Files.TemporaryFile]): FakeRequest[MultipartFormData[Files.TemporaryFile]] = {
+    FakeRequest(POST, routes.Trails.upload.url, FakeHeaders(), data)
   }
 
   def createMultipartFormData(fileName: String) = {
