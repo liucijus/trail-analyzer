@@ -103,8 +103,8 @@ var drawBox = function (box) {
         fillColor: '#ADC09F',
         fillOpacity: 0.35,
         bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(box['top']['lat'], box['bottom']['lon']),
-            new google.maps.LatLng(box['bottom']['lat'], box['top']['lon'])
+            new google.maps.LatLng(box['bottom']['lat'], box['bottom']['lon']),
+            new google.maps.LatLng(box['top']['lat'], box['top']['lon'])
         )
     });
     rectangle.setMap(map);

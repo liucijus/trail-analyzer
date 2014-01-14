@@ -34,13 +34,13 @@ public class TrackRectangleTest {
     @Test
     public void trackRectangleCoordsShouldBeCorrect_givenCorrectTrack() {
         Track track = trackOf(POINT_1, POINT_2, POINT_3);
-        TrackPoint topLeftPoint = new TrackPoint(POINT_1.getLatitude(), POINT_1.getLongitude());
-        TrackPoint bottomRightPoint = new TrackPoint(POINT_3.getLatitude(), POINT_3.getLongitude());
+        TrackPoint topRightPoint = new TrackPoint(POINT_1.getLatitude(), POINT_1.getLongitude());
+        TrackPoint bottomLeftPoint = new TrackPoint(POINT_3.getLatitude(), POINT_3.getLongitude());
 
         TrackRectangle rectangle = new TrackProcessor(track).calculateRectangle();
 
-        assertThat(rectangle.getTopRightPoint(), equalTo(topLeftPoint));
-        assertThat(rectangle.getBottomLeftPoint(), equalTo(bottomRightPoint));
+        assertThat(rectangle.getTopRightPoint(), equalTo(topRightPoint));
+        assertThat(rectangle.getBottomLeftPoint(), equalTo(bottomLeftPoint));
     }
 
     @Test
@@ -59,12 +59,12 @@ public class TrackRectangleTest {
                 trackOf(POINT_1, POINT_2, POINT_3),
                 trackOf(POINT_4, POINT_5, POINT_6)
         );
-        TrackPoint topLeftPoint = new TrackPoint(POINT_1.getLatitude(), POINT_1.getLongitude());
-        TrackPoint bottomRightPoint = new TrackPoint(POINT_6.getLatitude(), POINT_6.getLongitude());
+        TrackPoint topRightPoint = new TrackPoint(POINT_1.getLatitude(), POINT_1.getLongitude());
+        TrackPoint bottomLeftPoint = new TrackPoint(POINT_6.getLatitude(), POINT_6.getLongitude());
 
         TrackRectangle rectangle = TrackProcessor.calculateRectangle(tracks);
 
-        assertThat(rectangle.getTopRightPoint(), equalTo(topLeftPoint));
-        assertThat(rectangle.getBottomLeftPoint(), equalTo(bottomRightPoint));
+        assertThat(rectangle.getTopRightPoint(), equalTo(topRightPoint));
+        assertThat(rectangle.getBottomLeftPoint(), equalTo(bottomLeftPoint));
     }
 }
