@@ -31,8 +31,8 @@ var uploadFile = function (uploadUrl) {
     $.ajax({
         url: uploadUrl,
         type: 'post',
-        success: completeHandler = successHandler,
-        error: errorHandler = failureHandler,
+        success: successHandler,
+        error: failureHandler,
         data: formData,
         cache: false,
         contentType: false,
