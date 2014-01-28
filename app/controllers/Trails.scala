@@ -1,12 +1,11 @@
 package controllers
 
-import lt.overdrive.trackparser.parsing.{ParserException, Parser}
+import lt.overdrive.trackparser.parsing.Parser
 import play.api.mvc._
 import play.api.libs.json._
 import lt.overdrive.trackparser.domain.{TrackPoint, Track}
-import scala.collection.JavaConversions._
 import lt.overdrive.trackparser.processing.{TrackRectangle, TrackProcessor}
-import play.api.libs.json.Json.JsValueWrapper
+import scala.util.{Success, Failure}
 
 object Trails extends Controller {
 
@@ -18,45 +17,58 @@ object Trails extends Controller {
     request =>
       request.body.file("file").map {
         trailFile =>
-          try {
-            val trail = Parser.parseFile(trailFile.ref.file)
-            val jsonTracks = trail.getTracks.toList.map(convertToJson(_))
-            val box = TrackProcessor.calculateRectangle(trail.getTracks)
+          Parser.parserFile(trailFile.ref.file) match {
+            case Success(trail) => {
+              val jsonTracks = trail.tracks.toList.map(convertToJson)
+              val trailJson = Json.toJson(jsonTracks)
 
-            val trailJson = Json.toJson(jsonTracks)
+              //todo: add default center test & handling
+              val box = TrackProcessor.calculateRectangle(trail.tracks)
+              val boxJson = box match {
+                case Some(b) => createBoxJson(b)
+                case None => JsNull
+              }
 
-            val json = Json.obj(
-              "box" -> createBoxJson(box),
-              "trail" -> trailJson)
-            Ok(json)
-          } catch {
-            case _: ParserException => BadRequest(Json.toJson("Unrecognized file!"))
+              val json = Json.obj(
+                "box" -> boxJson,
+                "trail" -> trailJson)
+
+              Ok(json)
+
+            }
+            case Failure(e) => BadRequest(Json.toJson("Unrecognized file!"))
           }
+
       }.getOrElse {
         BadRequest(Json.toJson("Missing file!"))
       }
   }
 
   private def convertToJson(track: Track) = {
-    val points = track.getPoints.toList
+    val points = track.points.toList
     Json.toJson(points.map(p => Json.obj(
-      "lat" -> p.getLatitude.doubleValue,
-      "lng" -> p.getLongitude.doubleValue,
-      "alt" -> p.getAltitude.doubleValue
+      "lat" -> p.latitude,
+      "lng" -> p.longitude,
+      "alt" -> {
+        p.altitude match {
+          case Some(altitude) => altitude
+          case None => JsNull
+        }
+      }
     )))
   }
 
   private def createBoxJson(box: TrackRectangle) = {
     def createJsonPoint(point: TrackPoint): Json.JsValueWrapper = {
       Json.obj(
-        "lat" -> point.getLatitude.doubleValue,
-        "lon" -> point.getLongitude.doubleValue
+        "lat" -> point.latitude,
+        "lon" -> point.longitude
       )
     }
     Json.obj(
-      "top" -> createJsonPoint(box.getTopRightPoint),
-      "bottom" -> createJsonPoint(box.getBottomLeftPoint),
-      "center" -> createJsonPoint(box.getCenterPoint)
+      "top" -> createJsonPoint(box.northEast),
+      "bottom" -> createJsonPoint(box.southWest),
+      "center" -> createJsonPoint(box.centerPoint)
     )
   }
 }

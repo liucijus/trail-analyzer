@@ -9,17 +9,11 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     jdbc,
-    anorm
-  )
-
-  lazy val trackParserProject = Project("track-parser", file("trackparser")).settings(
-    libraryDependencies ++= Seq(
-      "com.google.guava" % "guava" % "15.0",
-      "joda-time" % "joda-time" % "2.3",
-      "org.hamcrest" % "hamcrest-all" % "1.3",
-      "com.novocode" % "junit-interface" % "0.10" % "test")
+    anorm,
+    "lt.overdrive" %% "track-parser" % "1.0-b659bae8183a7c5a43b4da44bc26bc6f4c55414e"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-  ).dependsOn(trackParserProject).aggregate(trackParserProject)
+    resolvers += Resolver.url("lt.overdrive", url("http://liucijus.github.io/track-parser-scala/"))(Resolver.ivyStylePatterns)
+  )
 }
