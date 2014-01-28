@@ -3,7 +3,7 @@ package controllers
 import lt.overdrive.trackparser.parsing.Parser
 import play.api.mvc._
 import play.api.libs.json._
-import lt.overdrive.trackparser.domain.{TrackPoint, Track}
+import lt.overdrive.trackparser.domain.{Trail, TrackPoint, Track}
 import lt.overdrive.trackparser.processing.{TrackRectangle, TrackProcessor}
 import scala.util.{Success, Failure}
 
@@ -22,26 +22,23 @@ object Trails extends Controller {
               val jsonTracks = trail.tracks.toList.map(convertToJson)
               val trailJson = Json.toJson(jsonTracks)
 
-              //todo: add default center test & handling
-              val box = TrackProcessor.calculateRectangle(trail.tracks)
-              val boxJson = box match {
-                case Some(b) => createBoxJson(b)
-                case None => JsNull
-              }
-
-              val json = Json.obj(
-                "box" -> boxJson,
-                "trail" -> trailJson)
+              val json = Json.obj("box" -> boxJson(trail), "trail" -> trailJson)
 
               Ok(json)
-
             }
             case Failure(e) => BadRequest(Json.toJson("Unrecognized file!"))
           }
-
       }.getOrElse {
         BadRequest(Json.toJson("Missing file!"))
       }
+  }
+
+
+  private def boxJson(trail: Trail): Json.JsValueWrapper = {
+    TrackProcessor.calculateRectangle(trail.tracks) match {
+      case Some(box) => createBoxJson(box)
+      case None => JsNull
+    }
   }
 
   private def convertToJson(track: Track) = {
