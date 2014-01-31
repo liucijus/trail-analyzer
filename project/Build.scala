@@ -10,7 +10,7 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     jdbc,
     anorm,
-    "lt.overdrive" %% "track-parser" % "1.0-+"
+    "lt.overdrive" %% "track-parser" % "1.0-629582bddca736e03ff282fa04fbd16f6ef072fa"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
